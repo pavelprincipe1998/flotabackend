@@ -44,7 +44,7 @@ public class CerCertificadoDetalleDeltaServiceImpl extends CerCertificadoDetalle
 
     @Autowired
     private CmisService cmisService;
-
+//rererer
     @Autowired
     private CerDocumentoAdjuntoRepository cerDocumentoAdjuntoRepository;
 
