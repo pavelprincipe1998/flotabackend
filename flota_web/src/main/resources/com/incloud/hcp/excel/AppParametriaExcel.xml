@@ -22,15 +22,15 @@
        <comentario></comentario>
     </header>
     <header>
-       <title>modulo</title>
+       <title>description</title>
        <fondoColor01>255</fondoColor01>
        <fondoColor02>217</fondoColor02>
        <fondoColor03>102</fondoColor03>
        <letraColor01>0</letraColor01>
        <letraColor02>0</letraColor02>
        <letraColor03>0</letraColor03>
-       <id>modulo</id>
-       <ancho>30</ancho>
+       <id>description</id>
+       <ancho>100</ancho>
        <comentario></comentario>
     </header>        
     <header>
@@ -46,15 +46,27 @@
        <comentario></comentario>
     </header>        
     <header>
-       <title>description</title>
+       <title>modulo</title>
        <fondoColor01>255</fondoColor01>
        <fondoColor02>217</fondoColor02>
        <fondoColor03>102</fondoColor03>
        <letraColor01>0</letraColor01>
        <letraColor02>0</letraColor02>
        <letraColor03>0</letraColor03>
-       <id>description</id>
-       <ancho>100</ancho>
+       <id>modulo</id>
+       <ancho>30</ancho>
+       <comentario></comentario>
+    </header>        
+    <header>
+       <title>status</title>
+       <fondoColor01>255</fondoColor01>
+       <fondoColor02>217</fondoColor02>
+       <fondoColor03>102</fondoColor03>
+       <letraColor01>0</letraColor01>
+       <letraColor02>0</letraColor02>
+       <letraColor03>0</letraColor03>
+       <id>status</id>
+       <ancho>255</ancho>
        <comentario></comentario>
     </header>        
     <header>
@@ -90,67 +102,7 @@
        <letraColor02>0</letraColor02>
        <letraColor03>0</letraColor03>
        <id>value3</id>
-       <ancho>2000</ancho>
+       <ancho>255</ancho>
        <comentario></comentario>
     </header>        
-    <header>
-       <title>status</title>
-       <fondoColor01>255</fondoColor01>
-       <fondoColor02>217</fondoColor02>
-       <fondoColor03>102</fondoColor03>
-       <letraColor01>0</letraColor01>
-       <letraColor02>0</letraColor02>
-       <letraColor03>0</letraColor03>
-       <id>status</id>
-       <ancho>30</ancho>
-       <comentario></comentario>
-    </header>        
-    <header>
-       <title>createdBy</title>
-       <fondoColor01>255</fondoColor01>
-       <fondoColor02>217</fondoColor02>
-       <fondoColor03>102</fondoColor03>
-       <letraColor01>0</letraColor01>
-       <letraColor02>0</letraColor02>
-       <letraColor03>0</letraColor03>
-       <id>createdBy</id>
-       <ancho>30</ancho>
-       <comentario></comentario>
-    </header>        
-    <header>
-       <title>createdDate</title>
-       <fondoColor01>91</fondoColor01>
-       <fondoColor02>155</fondoColor02>
-       <fondoColor03>213</fondoColor03>
-       <letraColor01>255</letraColor01>
-       <letraColor02>255</letraColor02>
-       <letraColor03>255</letraColor03>
-       <id>createdDate</id>
-       <ancho>70</ancho>
-       <comentario></comentario>
-    </header>    
-    <header>
-       <title>modifiedBy</title>
-       <fondoColor01>255</fondoColor01>
-       <fondoColor02>217</fondoColor02>
-       <fondoColor03>102</fondoColor03>
-       <letraColor01>0</letraColor01>
-       <letraColor02>0</letraColor02>
-       <letraColor03>0</letraColor03>
-       <id>modifiedBy</id>
-       <ancho>30</ancho>
-       <comentario></comentario>
-    </header>        
-    <header>
-       <title>modifiedDate</title>
-       <fondoColor01>91</fondoColor01>
-       <fondoColor02>155</fondoColor02>
-       <fondoColor03>213</fondoColor03>
-       <letraColor01>255</letraColor01>
-       <letraColor02>255</letraColor02>
-       <letraColor03>255</letraColor03>
-       <id>modifiedDate</id>
-       <ancho>70</ancho>
-       <comentario></comentario>
-    </header>    
 </excel>

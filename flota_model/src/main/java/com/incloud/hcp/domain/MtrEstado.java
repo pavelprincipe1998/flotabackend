@@ -10,7 +10,6 @@
 package com.incloud.hcp.domain;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -21,9 +20,9 @@ import java.util.logging.Logger;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-@Table(name = "mtr_estado", uniqueConstraints = { @UniqueConstraint(name = "mtr_estado_ak01", columnNames = { "codigo_agrupado", "codigo_estado" }) })
+@Table(name = "MTR_ESTADO")
 //@Audited
-//@AuditTable("_audi_mtr_estado")
+//@AuditTable("_audi_MTR_ESTADO")
 public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(MtrEstado.class.getName());
@@ -34,9 +33,7 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
 
     // Raw attributes
     private Integer id;
-    private String codigoAgrupado;
-    private String codigoEstado;
-    private String descripcion;
+    private String nombre;
 
     @Override
     public String entityClassName() {
@@ -46,10 +43,10 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "mtr_estado_id", precision = 5)
-    @GeneratedValue(strategy = SEQUENCE, generator = "seq_mtr_estado")
+    @Column(name = "MTR_ESTADO_ID", precision = 10)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seq_MTR_ESTADO")
     @Id
-    @SequenceGenerator(name = "seq_mtr_estado", sequenceName = "seq_mtr_estado", allocationSize = 1)
+    @SequenceGenerator(name = "seq_MTR_ESTADO", sequenceName = "seq_MTR_ESTADO", allocationSize = 1)
     public Integer getId() {
         return id;
     }
@@ -69,55 +66,21 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
     public boolean isIdSet() {
         return id != null;
     }
-    // -- [codigoAgrupado] ------------------------
+    // -- [nombre] ------------------------
 
-    @NotEmpty(message = "{message.mtrEstado.codigoAgrupado.requerido}")
-    @Size(max = 5, message = "{message.mtrEstado.codigoAgrupado.sizeMax} {max} {message.caracter}")
-    @Column(name = "codigo_agrupado", nullable = false, length = 5)
-    public String getCodigoAgrupado() {
-        return codigoAgrupado;
+    @NotEmpty(message = "{message.mtrEstado.nombre.requerido}")
+    @Size(max = 100, message = "{message.mtrEstado.nombre.sizeMax} {max} {message.caracter}")
+    @Column(name = "NOMBRE", nullable = false, length = 100)
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCodigoAgrupado(String codigoAgrupado) {
-        this.codigoAgrupado = codigoAgrupado;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public MtrEstado codigoAgrupado(String codigoAgrupado) {
-        setCodigoAgrupado(codigoAgrupado);
-        return this;
-    }
-    // -- [codigoEstado] ------------------------
-
-    @NotEmpty(message = "{message.mtrEstado.codigoEstado.requerido}")
-    @Size(max = 5, message = "{message.mtrEstado.codigoEstado.sizeMax} {max} {message.caracter}")
-    @Column(name = "codigo_estado", nullable = false, length = 5)
-    public String getCodigoEstado() {
-        return codigoEstado;
-    }
-
-    public void setCodigoEstado(String codigoEstado) {
-        this.codigoEstado = codigoEstado;
-    }
-
-    public MtrEstado codigoEstado(String codigoEstado) {
-        setCodigoEstado(codigoEstado);
-        return this;
-    }
-    // -- [descripcion] ------------------------
-
-    @NotEmpty(message = "{message.mtrEstado.descripcion.requerido}")
-    @Size(max = 50, message = "{message.mtrEstado.descripcion.sizeMax} {max} {message.caracter}")
-    @Column(name = "descripcion", nullable = false, length = 50)
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public MtrEstado descripcion(String descripcion) {
-        setDescripcion(descripcion);
+    public MtrEstado nombre(String nombre) {
+        setNombre(nombre);
         return this;
     }
 
@@ -136,21 +99,11 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
         return this == other || (other instanceof MtrEstado && hashCode() == other.hashCode());
     }
 
-    private volatile int previousHashCode = 0;
+    private IdentifiableHashBuilder identifiableHashBuilder = new IdentifiableHashBuilder();
 
     @Override
     public int hashCode() {
-        int hashCode = Objects.hashCode(getCodigoAgrupado(), //
-                getCodigoEstado());
-
-        if (previousHashCode != 0 && previousHashCode != hashCode) {
-            log.warning("DEVELOPER: hashCode has changed!." //
-                    + "If you encounter this message you should take the time to carefuly review equals/hashCode for: " //
-                    + getClass().getCanonicalName());
-        }
-
-        previousHashCode = hashCode;
-        return hashCode;
+        return identifiableHashBuilder.hash(log, this);
     }
 
     /**
@@ -161,9 +114,7 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
     public String toString() {
         return MoreObjects.toStringHelper(this) //
                 .add("id", getId()) //
-                .add("codigoAgrupado", getCodigoAgrupado()) //
-                .add("codigoEstado", getCodigoEstado()) //
-                .add("descripcion", getDescripcion()) //
+                .add("nombre", getNombre()) //
                 .toString();
     }
 }

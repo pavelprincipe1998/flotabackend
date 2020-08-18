@@ -14,83 +14,49 @@
 <mapper namespace="com.incloud.hcp.mapper.MtrEstadoMapper">
 
 <resultMap id="mtrEstadoResultMap" type="com.incloud.hcp.domain.MtrEstado">
-	<id property="id" jdbcType="INTEGER" column="mtr_estado_id" />
-	<result property="codigoAgrupado" jdbcType="VARCHAR" column="codigo_agrupado" />	
-	<result property="codigoEstado" jdbcType="VARCHAR" column="codigo_estado" />	
-	<result property="descripcion" jdbcType="VARCHAR" column="descripcion" />	
+	<id property="id" jdbcType="INTEGER" column="MTR_ESTADO_ID" />
+	<result property="nombre" jdbcType="VARCHAR" column="NOMBRE" />	
 </resultMap>
 
 
 <select id="getLista" parameterType="com.incloud.hcp.domain.MtrEstado" resultMap="mtrEstadoResultMap">
 	SELECT 
-      mtr_estado_id , 
-      codigo_agrupado , 
-      codigo_estado , 
-      descripcion 
+      MTR_ESTADO_ID , 
+      NOMBRE 
 	FROM
-	mtr_estado
+	MTR_ESTADO
 	WHERE 1 = 1
 	<if test="id != null ">
-		AND mtr_estado_id = #{id, jdbcType=INTEGER}
+		AND MTR_ESTADO_ID = #{id, jdbcType=INTEGER}
 	</if>	
-	<if test="codigoAgrupado != null and codigoAgrupado != '' ">
-		AND codigo_agrupado = #{codigoAgrupado}
-	</if>	
-	<if test="codigoEstado != null and codigoEstado != '' ">
-		AND codigo_estado = #{codigoEstado}
-	</if>	
-	<if test="descripcion != null and descripcion != '' ">
-		AND descripcion = #{descripcion}
+	<if test="nombre != null and nombre != '' ">
+		AND NOMBRE = #{nombre}
 	</if>	
 </select>
 
-	<select id="findAllByCodesSap" parameterType="com.incloud.hcp.domain.MtrEstado" resultMap="mtrEstadoResultMap">
-		SELECT
-		mtr_estado_id ,
-		codigo_agrupado ,
-		codigo_estado ,
-		descripcion
-		FROM
-		mtr_estado
-		WHERE 1 = 1
-
-		<if test="codes != null and codes != '' ">
-			AND codigo_estado = IN (#{codes, jdbcType=VARCHAR})
-		</if>
-
-	</select>
-
 <insert id="insertBean" >
-INSERT INTO  mtr_estado(
-mtr_estado_id , 
-codigo_agrupado , 
-codigo_estado , 
-descripcion 
+INSERT INTO  MTR_ESTADO(
+MTR_ESTADO_ID , 
+NOMBRE 
 )
 VALUES
 (
 #{id} , 
-#{codigoAgrupado} , 
-#{codigoEstado} , 
-#{descripcion} 
+#{nombre} 
 )
 
 </insert>
 
 <insert id="insertMap" parameterType="java.util.Map" >
-INSERT INTO  mtr_estado(
-mtr_estado_id , 
-codigo_agrupado , 
-codigo_estado , 
-descripcion 
+INSERT INTO  MTR_ESTADO(
+MTR_ESTADO_ID , 
+NOMBRE 
 )
 (
 <foreach collection="list" item="element" index="index" separator=" UNION ">  
 SELECT
 #{element.id} , 
-#{element.codigoAgrupado} , 
-#{element.codigoEstado} , 
-#{element.descripcion} 
+#{element.nombre} 
 from dual
 
 </foreach>    
@@ -100,42 +66,30 @@ from dual
 
 
 <update id="updateBean">
-    UPDATE mtr_estado
+    UPDATE MTR_ESTADO
     <set>
-	<if test="codigoAgrupado != null and codigoAgrupado != '' ">
-		codigo_agrupado = #{codigoAgrupado},
-	</if>	
-	<if test="codigoEstado != null and codigoEstado != '' ">
-		codigo_estado = #{codigoEstado},
-	</if>	
-	<if test="descripcion != null and descripcion != '' ">
-		descripcion = #{descripcion},
+	<if test="nombre != null and nombre != '' ">
+		NOMBRE = #{nombre},
 	</if>	
     </set> 
 	WHERE 
-	  mtr_estado_id = #{id, jdbcType=INTEGER}	
+	  MTR_ESTADO_ID = #{id, jdbcType=INTEGER}	
 </update>
 
 
 <delete id="deleteBean">
-    DELETE FROM mtr_estado
+    DELETE FROM MTR_ESTADO
 	WHERE 1 = 1
 	<if test="id != null ">
-		AND mtr_estado_id = #{id, jdbcType=INTEGER}
+		AND MTR_ESTADO_ID = #{id, jdbcType=INTEGER}
 	</if>	
-	<if test="codigoAgrupado != null and codigoAgrupado != '' ">
-		AND codigo_agrupado = #{codigoAgrupado}
-	</if>	
-	<if test="codigoEstado != null and codigoEstado != '' ">
-		AND codigo_estado = #{codigoEstado}
-	</if>	
-	<if test="descripcion != null and descripcion != '' ">
-		AND descripcion = #{descripcion}
+	<if test="nombre != null and nombre != '' ">
+		AND NOMBRE = #{nombre}
 	</if>	
 </delete>
 
 <delete id="deleteAll">
-   DELETE FROM mtr_estado
+   DELETE FROM MTR_ESTADO
 </delete>
 
 </mapper>

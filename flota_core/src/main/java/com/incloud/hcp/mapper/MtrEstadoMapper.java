@@ -12,13 +12,10 @@ package com.incloud.hcp.mapper;
 import com.incloud.hcp.domain.MtrEstado;
 import com.incloud.hcp.repository._framework.JPACustomMapperMybatis;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Mapper
 @Repository
 public interface MtrEstadoMapper extends JPACustomMapperMybatis<MtrEstado> {
-    List<MtrEstado> findAllByCodesSap(@Param("codes") String codes);
+
 }

@@ -9,35 +9,12 @@
  */
 package com.incloud.hcp.rest.delta;
 
-import com.incloud.hcp.domain.MtrEstado;
 import com.incloud.hcp.rest.MtrEstadoRest;
-import com.incloud.hcp.service.delta.MtrEstadoDeltaService;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/mtrEstado")
 public class MtrEstadoDeltaRest extends MtrEstadoRest {
-
-    @Autowired
-    protected MtrEstadoDeltaService mtrEstadoDeltaService;
-
-    @ApiOperation(value = "Listado Criterio Estado", produces = "application/json")
-    @RequestMapping(value = "/listCriterioEstado", method = RequestMethod.POST, headers = "Accept=application/json")
-    ResponseEntity<List<MtrEstado>> listCriterioEstado(@RequestBody MtrEstado estado)
-            throws Exception {
-        return Optional.of(new ResponseEntity<List<MtrEstado>>(
-                mtrEstadoDeltaService.find(estado),
-                HttpStatus.OK)).orElse(new ResponseEntity<>(HttpStatus.NO_CONTENT));
-    }
 
 }

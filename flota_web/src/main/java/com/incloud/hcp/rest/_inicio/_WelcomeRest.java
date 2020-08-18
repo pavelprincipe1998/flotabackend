@@ -1,7 +1,7 @@
 package com.incloud.hcp.rest._inicio;
 
 
-import com.incloud.hcp.ProveedorApplication;
+import com.incloud.hcp.FlotaApplication;
 import com.incloud.hcp.rest._framework.BaseRest;
 import com.incloud.hcp.utils.DateUtils;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ public class _WelcomeRest extends BaseRest{
     @ApiOperation(value = "Vuelve a Restaurar la Aplicacion, que deploye de nuevo")
     @PostMapping("/restart")
     public void restart() {
-        ProveedorApplication.restart();
+        FlotaApplication.restart();
     }
 
     @ApiOperation(value = "Devuelve OK para ser utilizado en Amazon AWS para que determine la salud de la Aplicacion")

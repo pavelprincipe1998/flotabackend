@@ -9,19 +9,11 @@
  */
 package com.incloud.hcp.service.delta;
 
-import com.incloud.hcp.domain.AppParametria;
 import com.incloud.hcp.service.AppParametriaService;
-import com.incloud.hcp.service.dto.MtrHistorialAprobarSalidaDto;
 
 /**
  * Simple Interface for AppParametria.
  */
 public interface AppParametriaDeltaService extends AppParametriaService {
-
-    Boolean devuelveApagarCertificado() throws Exception;
-
-    AppParametria grabarApagarCertificado(Boolean apagar) throws Exception;
-
-    MtrHistorialAprobarSalidaDto devuelveHistorialAprobar() throws Exception;
 
 }

@@ -15,7 +15,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,33 +30,25 @@ public class AppParametriaResponse extends BaseResponseDomain<AppParametria> {
     /****************************/
 
     private String idCondicion;
-    private String moduloCondicion;
-    private String labelCondicion;
     private String descriptionCondicion;
+    private String labelCondicion;
+    private String moduloCondicion;
+    private String statusCondicion;
     private String value1Condicion;
     private String value2Condicion;
     private String value3Condicion;
-    private String statusCondicion;
-    private String createdByCondicion;
-    private String createdDateCondicion;
-    private String modifiedByCondicion;
-    private String modifiedDateCondicion;
 
     /****************************/
     /* Variables Listas         */
     /****************************/
 
     private List<Integer> idList;
-    private List<String> moduloList;
-    private List<String> labelList;
     private List<String> descriptionList;
+    private List<String> labelList;
+    private List<String> moduloList;
+    private List<String> statusList;
     private List<String> value1List;
     private List<String> value2List;
     private List<String> value3List;
-    private List<String> statusList;
-    private List<String> createdByList;
-    private List<Date> createdDateList;
-    private List<String> modifiedByList;
-    private List<Date> modifiedDateList;
 
 }

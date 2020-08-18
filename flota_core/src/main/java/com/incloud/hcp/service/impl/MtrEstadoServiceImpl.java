@@ -76,9 +76,7 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
 
     protected final ExampleMatcher setAbstractFind(ExampleMatcher matcher) {
         matcher = ExampleMatcher.matching() //
-                .withMatcher(MtrEstado_.codigoAgrupado.getName(), match -> match.ignoreCase().startsWith())
-                .withMatcher(MtrEstado_.codigoEstado.getName(), match -> match.ignoreCase().startsWith())
-                .withMatcher(MtrEstado_.descripcion.getName(), match -> match.ignoreCase().startsWith());
+                .withMatcher(MtrEstado_.nombre.getName(), match -> match.ignoreCase().startsWith());
         return matcher;
     }
 
@@ -101,14 +99,10 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
         MtrEstado entity = bean.getBean();
         /* Obtener condiciones */
         PredicateUtils.addPredicates(predicates, bean.getIdCondicion(), "id", entity.getId(), cb, root);
-        PredicateUtils.addPredicates(predicates, bean.getCodigoAgrupadoCondicion(), "codigoAgrupado", entity.getCodigoAgrupado(), cb, root);
-        PredicateUtils.addPredicates(predicates, bean.getCodigoEstadoCondicion(), "codigoEstado", entity.getCodigoEstado(), cb, root);
-        PredicateUtils.addPredicates(predicates, bean.getDescripcionCondicion(), "descripcion", entity.getDescripcion(), cb, root);
+        PredicateUtils.addPredicates(predicates, bean.getNombreCondicion(), "nombre", entity.getNombre(), cb, root);
         /* Obtener valores de Lista */
         PredicateUtils.addPredicatesListValorPrimitivo(predicates, "id", bean.getIdList(), cb, root);
-        PredicateUtils.addPredicatesListValorPrimitivo(predicates, "codigoAgrupado", bean.getCodigoAgrupadoList(), cb, root);
-        PredicateUtils.addPredicatesListValorPrimitivo(predicates, "codigoEstado", bean.getCodigoEstadoList(), cb, root);
-        PredicateUtils.addPredicatesListValorPrimitivo(predicates, "descripcion", bean.getDescripcionList(), cb, root);
+        PredicateUtils.addPredicatesListValorPrimitivo(predicates, "nombre", bean.getNombreList(), cb, root);
         return predicates;
     }
 
@@ -118,16 +112,8 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
 
     protected final String validacionesPrevias(MtrEstado bean) throws Exception {
         String mensaje = "";
-        if (!Optional.of(bean.getCodigoAgrupado()).isPresent()) {
-            String msg = this.messageSource.getMessage("message.mtrEstado.codigoAgrupado.requerido", null, LocaleContextHolder.getLocale());
-            mensaje += "* " + msg + "<br/>";
-        }
-        if (!Optional.of(bean.getCodigoEstado()).isPresent()) {
-            String msg = this.messageSource.getMessage("message.mtrEstado.codigoEstado.requerido", null, LocaleContextHolder.getLocale());
-            mensaje += "* " + msg + "<br/>";
-        }
-        if (!Optional.of(bean.getDescripcion()).isPresent()) {
-            String msg = this.messageSource.getMessage("message.mtrEstado.descripcion.requerido", null, LocaleContextHolder.getLocale());
+        if (!Optional.of(bean.getNombre()).isPresent()) {
+            String msg = this.messageSource.getMessage("message.mtrEstado.nombre.requerido", null, LocaleContextHolder.getLocale());
             mensaje += "* " + msg + "<br/>";
         }
         String msg = this.setValidacionesPrevias(bean);
@@ -183,34 +169,12 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
         case 1:
             try {
                 valorCadena = currentCell.getStringCellValue();
-                if (valorCadena.length() > 5) {
-                    throw new ServiceException("Valor Campo codigoAgrupado contiene mas de 5 caracter(es)");
+                if (valorCadena.length() > 100) {
+                    throw new ServiceException("Valor Campo nombre contiene mas de 100 caracter(es)");
                 }
-                mtrEstado.setCodigoAgrupado(valorCadena);
+                mtrEstado.setNombre(valorCadena);
             } catch (Exception e) {
-                throw new ServiceException("Valor Campo codigoAgrupado está en formato incorrecto");
-            }
-            break;
-        case 2:
-            try {
-                valorCadena = currentCell.getStringCellValue();
-                if (valorCadena.length() > 5) {
-                    throw new ServiceException("Valor Campo codigoEstado contiene mas de 5 caracter(es)");
-                }
-                mtrEstado.setCodigoEstado(valorCadena);
-            } catch (Exception e) {
-                throw new ServiceException("Valor Campo codigoEstado está en formato incorrecto");
-            }
-            break;
-        case 3:
-            try {
-                valorCadena = currentCell.getStringCellValue();
-                if (valorCadena.length() > 50) {
-                    throw new ServiceException("Valor Campo descripcion contiene mas de 50 caracter(es)");
-                }
-                mtrEstado.setDescripcion(valorCadena);
-            } catch (Exception e) {
-                throw new ServiceException("Valor Campo descripcion está en formato incorrecto");
+                throw new ServiceException("Valor Campo nombre está en formato incorrecto");
             }
             break;
         default:
@@ -271,11 +235,7 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
         int contador = 0;
         ExcelDefault.setValueCell(bean.getId(), dataRow.createCell(contador));
         contador++;
-        ExcelDefault.setValueCell(bean.getCodigoAgrupado(), dataRow.createCell(contador));
-        contador++;
-        ExcelDefault.setValueCell(bean.getCodigoEstado(), dataRow.createCell(contador));
-        contador++;
-        ExcelDefault.setValueCell(bean.getDescripcion(), dataRow.createCell(contador));
+        ExcelDefault.setValueCell(bean.getNombre(), dataRow.createCell(contador));
         contador++;
         return contador;
     }
@@ -284,38 +244,22 @@ public abstract class MtrEstadoServiceImpl extends JPACustomServiceImpl<MtrEstad
         int contador = 0;
         ExcelDefault.setValueCell(bean.getId(), dataRow.createCell(contador), "I", cellStyleList);
         contador++;
-        ExcelDefault.setValueCell(bean.getCodigoAgrupado(), dataRow.createCell(contador), "S", cellStyleList);
-        contador++;
-        ExcelDefault.setValueCell(bean.getCodigoEstado(), dataRow.createCell(contador), "S", cellStyleList);
-        contador++;
-        ExcelDefault.setValueCell(bean.getDescripcion(), dataRow.createCell(contador), "S", cellStyleList);
+        ExcelDefault.setValueCell(bean.getNombre(), dataRow.createCell(contador), "S", cellStyleList);
         contador++;
         return contador;
     }
 
     protected String setAbstractGenerateInsertExcelSXLSX(MtrEstado bean) {
         String fechaS = "";
-        String sqlInsert = "INSERT INTO mtr_estado(";
-        sqlInsert = sqlInsert + "mtr_estado_id" + ", ";
-        sqlInsert = sqlInsert + "codigo_agrupado" + ", ";
-        sqlInsert = sqlInsert + "codigo_estado" + ", ";
-        sqlInsert = sqlInsert + "descripcion" + ")";
+        String sqlInsert = "INSERT INTO MTR_ESTADO(";
+        sqlInsert = sqlInsert + "MTR_ESTADO_ID" + ", ";
+        sqlInsert = sqlInsert + "NOMBRE" + ")";
         sqlInsert = sqlInsert + " VALUES (";
         sqlInsert = sqlInsert + bean.getId() + ", ";
-        if (StringUtils.isBlank(bean.getCodigoAgrupado())) {
-            sqlInsert = sqlInsert + "null" + ", ";
-        } else {
-            sqlInsert = sqlInsert + "'" + bean.getCodigoAgrupado() + "'" + ", ";
-        }
-        if (StringUtils.isBlank(bean.getCodigoEstado())) {
-            sqlInsert = sqlInsert + "null" + ", ";
-        } else {
-            sqlInsert = sqlInsert + "'" + bean.getCodigoEstado() + "'" + ", ";
-        }
-        if (StringUtils.isBlank(bean.getDescripcion())) {
+        if (StringUtils.isBlank(bean.getNombre())) {
             sqlInsert = sqlInsert + "null";
         } else {
-            sqlInsert = sqlInsert + "'" + bean.getDescripcion() + "'";
+            sqlInsert = sqlInsert + "'" + bean.getNombre() + "'";
         }
         sqlInsert = sqlInsert + " );";
         return sqlInsert;

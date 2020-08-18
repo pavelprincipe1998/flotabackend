@@ -30,17 +30,13 @@ public class MtrEstadoResponse extends BaseResponseDomain<MtrEstado> {
     /****************************/
 
     private String idCondicion;
-    private String codigoAgrupadoCondicion;
-    private String codigoEstadoCondicion;
-    private String descripcionCondicion;
+    private String nombreCondicion;
 
     /****************************/
     /* Variables Listas         */
     /****************************/
 
     private List<Integer> idList;
-    private List<String> codigoAgrupadoList;
-    private List<String> codigoEstadoList;
-    private List<String> descripcionList;
+    private List<String> nombreList;
 
 }

@@ -9,22 +9,14 @@
  */
 package com.incloud.hcp.service.delta.impl;
 
-import com.incloud.hcp._security.SystemLoggedUser;
-import com.incloud.hcp._security.UserSession;
 import com.incloud.hcp.domain.AppParametria;
-import com.incloud.hcp.domain.MtrHistorialApagar;
-import com.incloud.hcp.repository.delta.MtrHistorialApagarDeltaRepository;
+import com.incloud.hcp.domain.response.AppParametriaResponse;
 import com.incloud.hcp.service.delta.AppParametriaDeltaService;
-import com.incloud.hcp.service.delta.MtrHistorialApagarDeltaService;
-import com.incloud.hcp.service.dto.MtrHistorialAprobarSalidaDto;
 import com.incloud.hcp.service.impl.AppParametriaServiceImpl;
 import com.incloud.hcp.service.support.PageRequestByExample;
-import com.incloud.hcp.utils.Constants;
-import com.incloud.hcp.utils.DateUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Cell;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
@@ -32,9 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A simple DTO Facility for AppParametria.
@@ -43,86 +37,9 @@ import java.util.Optional;
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class AppParametriaDeltaServiceImpl extends AppParametriaServiceImpl implements AppParametriaDeltaService {
 
-    @Autowired
-    private SystemLoggedUser systemLoggedUser;
-
-    @Autowired
-    private MtrHistorialApagarDeltaRepository mtrHistorialApagarDeltaRepository;
-
-    @Autowired
-    private MtrHistorialApagarDeltaService mtrHistorialApagarDeltaService;
-
-    private static String CONFIGURACION = "CONFIGURACION";
-    private static String APAGAR_CERTIFICADO = "APAGAR_CERTIFICADO";
-
     /**************************/
     /* Metodos Personalizados */
     /**************************/
-    public MtrHistorialAprobarSalidaDto devuelveHistorialAprobar() throws Exception {
-        MtrHistorialAprobarSalidaDto mtrHistorialAprobarSalidaDto = new MtrHistorialAprobarSalidaDto();
-
-        List<MtrHistorialApagar> mtrHistorialApagarList = this.mtrHistorialApagarDeltaService.findAllOrderFechaHistorial();
-        Boolean estadoApagado = this.devuelveApagarCertificado();
-
-        mtrHistorialAprobarSalidaDto.setEstadoApagado(estadoApagado);
-        mtrHistorialAprobarSalidaDto.setMtrHistorialApagarList(mtrHistorialApagarList);
-        return mtrHistorialAprobarSalidaDto;
-    }
-
-    public Boolean devuelveApagarCertificado() throws Exception {
-        AppParametria appParametria = this.appParametriaDeltaRepository.getByModuloAndLabelAndStatus(
-                CONFIGURACION, APAGAR_CERTIFICADO, Constants.UNO
-        );
-        if (!Optional.ofNullable(appParametria).isPresent()) {
-            return false;
-        }
-
-        if (appParametria.getValue1().equals(Constants.SI)) {
-            return true;
-        }
-        return false;
-    }
-
-    public AppParametria grabarApagarCertificado(Boolean apagar) throws Exception {
-        String valorParametro = (apagar ? Constants.SI : Constants.NO);
-        UserSession userSession = this.systemLoggedUser.getUserSession();
-        Date fechaActual = DateUtils.obtenerFechaHoraActual();
-        AppParametria appParametria = this.appParametriaDeltaRepository.getByModuloAndLabelAndStatus(
-                CONFIGURACION, APAGAR_CERTIFICADO, Constants.UNO
-        );
-        if (!Optional.ofNullable(appParametria).isPresent()) {
-            appParametria = new AppParametria();
-            appParametria.setCreatedBy(userSession.getId());
-            appParametria.setDescription("Apagar Certificado");
-            appParametria.setModulo(CONFIGURACION);
-            appParametria.setLabel(APAGAR_CERTIFICADO);
-        }
-        else {
-            String valorActual = appParametria.getValue1();
-            if (valorActual.equals(valorParametro)) {
-                throw new Exception("El valor a cambiar es el mismo que el Valor Actual del Estado Apagado");
-            }
-        }
-        appParametria.setModifiedBy(userSession.getId());
-        appParametria.setStatus(Constants.UNO);
-        appParametria.setValue1(valorParametro);
-        appParametria = this.appParametriaDeltaRepository.save(appParametria);
-
-
-        MtrHistorialApagar mtrHistorialApagar = new MtrHistorialApagar();
-
-        String nombreCompleto = userSession.getFirstName() != null ? userSession.getFirstName() : " ";
-        nombreCompleto = nombreCompleto + userSession.getLastName() != null ? userSession.getLastName() : " ";
-        nombreCompleto = nombreCompleto.trim();
-
-        mtrHistorialApagar.setFechaHistorial(fechaActual);
-        mtrHistorialApagar.setUsuarioHistorial(nombreCompleto);
-        mtrHistorialApagar.setEstadoApagar(valorParametro);
-        this.mtrHistorialApagarDeltaRepository.save(mtrHistorialApagar);
-        return appParametria;
-    }
-
-
 
     /***********************/
     /* Metodos de Busqueda */
@@ -138,6 +55,40 @@ public class AppParametriaDeltaServiceImpl extends AppParametriaServiceImpl impl
 
     protected void setFindPaginated(PageRequestByExample<AppParametria> req, ExampleMatcher matcher, Example<AppParametria> example) {
         return;
+    }
+
+    protected List<Predicate> setAdicionalDeltaPredicate(List<Predicate> predicates, AppParametriaResponse bean, CriteriaBuilder cb,
+            CriteriaQuery<AppParametria> query, Root<AppParametria> root) throws Exception {
+
+        AppParametria entity = bean.getBean();
+        //Ejemplo
+        /*
+        if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+            Join<AppParametria, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+        
+            if (Optional.ofNullable(entity.get<VariableManytoOne>().get<Atributo>()).isPresent()) {
+                Join<AppParametria, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+                Predicate thirdCondition = cb.equal(from<ClaseManytoOne>.get("<Atributo>"), entity.get<ClaseManytoOne>().get<Atributo>());
+                predicates.add(thirdCondition);
+            }
+            
+        }
+        query.orderBy(cb.desc(root.get("<campo entity>")));
+        */
+        return predicates;
+    }
+
+    protected Root<AppParametria> setAdicionalDeltaTotalPredicate(AppParametriaResponse bean, Root<AppParametria> countRoot) throws Exception {
+        AppParametria entity = bean.getBean();
+        //Ejemplo
+        /*
+        if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+            if (Optional.ofNullable(entity.get<VariableManytoOne>()).isPresent()) {
+                Join<AppParametria, <ClaseManytoOne>> from<ClaseManytoOne> = countRoot.join("<variableManytoOne>", JoinType.INNER);
+            }
+        }
+        */
+        return countRoot;
     }
 
     /****************/

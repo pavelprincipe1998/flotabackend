@@ -17,7 +17,5 @@ public abstract class MtrEstado_ {
 
     // Raw attributes
     public static volatile SingularAttribute<MtrEstado, Integer> id;
-    public static volatile SingularAttribute<MtrEstado, String> codigoAgrupado;
-    public static volatile SingularAttribute<MtrEstado, String> codigoEstado;
-    public static volatile SingularAttribute<MtrEstado, String> descripcion;
+    public static volatile SingularAttribute<MtrEstado, String> nombre;
 }

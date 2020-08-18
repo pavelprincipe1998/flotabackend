@@ -9,15 +9,8 @@
  */
 package com.incloud.hcp.repository.delta;
 
-import com.incloud.hcp.domain.MtrEstado;
 import com.incloud.hcp.repository.MtrEstadoRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface MtrEstadoDeltaRepository extends MtrEstadoRepository {
-
-    MtrEstado getByCodigoAgrupadoAndCodigoEstado(String codigoAgrupado, String codigoEstado);
-
-    @Query("select e from MtrEstado e where e.codigoAgrupado = ?1 and e.codigoEstado = ?2")
-    MtrEstado getByCodeGrupoAndCodeEstado(String codAgrupado, String codigoSap);
 
 }

@@ -25,10 +25,10 @@ public interface MtrEstadoRepository extends JPACustomRepository<MtrEstado, Inte
 
     default List<MtrEstado> findCompletePaginated(String query, int maxResults) {
         MtrEstado probe = new MtrEstado();
-        //probe.setCodigoAgrupado(query);
-        probe.setCodigoAgrupado(null);
+        //probe.setNombre(query);
+        probe.setNombre(null);
         ExampleMatcher matcher = ExampleMatcher.matching() //
-                .withMatcher(MtrEstado_.codigoAgrupado.getName(), match -> match.ignoreCase().startsWith());
+                .withMatcher(MtrEstado_.nombre.getName(), match -> match.ignoreCase().startsWith());
 
         Page<MtrEstado> page = this.findAll(Example.of(probe, matcher), PageRequest.of(0, maxResults));
         return page.getContent();
