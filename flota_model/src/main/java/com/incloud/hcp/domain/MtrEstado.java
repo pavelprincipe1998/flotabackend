@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-@Table(name = "MTR_ESTADO")
+@Table(name = "mtr_estado")
 //@Audited
 //@AuditTable("_audi_MTR_ESTADO")
 public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Serializable {
@@ -43,10 +43,10 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "MTR_ESTADO_ID", precision = 10)
-    @GeneratedValue(strategy = SEQUENCE, generator = "seq_MTR_ESTADO")
+    @Column(name = "mtr_estado_id", precision = 10)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seq_mtr_estado")
     @Id
-    @SequenceGenerator(name = "seq_MTR_ESTADO", sequenceName = "seq_MTR_ESTADO", allocationSize = 1)
+    @SequenceGenerator(name = "seq_mtr_estado", sequenceName = "seq_mtr_estado", allocationSize = 1)
     public Integer getId() {
         return id;
     }
@@ -70,7 +70,7 @@ public class MtrEstado extends BaseDomain implements Identifiable<Integer>, Seri
 
     @NotEmpty(message = "{message.mtrEstado.nombre.requerido}")
     @Size(max = 100, message = "{message.mtrEstado.nombre.sizeMax} {max} {message.caracter}")
-    @Column(name = "NOMBRE", nullable = false, length = 100)
+    @Column(name = "nombre", nullable = false, length = 100)
     public String getNombre() {
         return nombre;
     }

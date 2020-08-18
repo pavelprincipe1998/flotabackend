@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
-@Table(name = "MAREA_PESCA")
+@Table(name = "marea_pesca")
 //@Audited
 //@AuditTable("_audi_MAREA_PESCA")
 public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Serializable {
@@ -52,10 +52,10 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "MAREA_PESCA_ID", precision = 10)
-    @GeneratedValue(strategy = SEQUENCE, generator = "seq_MAREA_PESCA")
+    @Column(name = "marea_pesca_id", precision = 10)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seq_marea_pesca")
     @Id
-    @SequenceGenerator(name = "seq_MAREA_PESCA", sequenceName = "seq_MAREA_PESCA", allocationSize = 1)
+    @SequenceGenerator(name = "seq_marea_pesca", sequenceName = "seq_marea_pesca", allocationSize = 1)
     public Integer getId() {
         return id;
     }
@@ -79,7 +79,7 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
 
     @NotEmpty(message = "{message.mareaPesca.numeroMarea.requerido}")
     @Size(max = 100, message = "{message.mareaPesca.numeroMarea.sizeMax} {max} {message.caracter}")
-    @Column(name = "NUMERO_MAREA", nullable = false, length = 100)
+    @Column(name = "numero_marea", nullable = false, length = 100)
     public String getNumeroMarea() {
         return numeroMarea;
     }
@@ -95,7 +95,7 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
     // -- [valorHorometro] ------------------------
 
     @Digits(integer = 17, fraction = 2)
-    @Column(name = "VALOR_HOROMETRO", precision = 19, scale = 2)
+    @Column(name = "valor_horometro", precision = 19, scale = 2)
     public BigDecimal getValorHorometro() {
         return valorHorometro;
     }
@@ -118,7 +118,7 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @NotNull
-    @JoinColumn(name = "MTR_EMBARCACION_ID", nullable = false)
+    @JoinColumn(name = "mtr_embarcacion_id", nullable = false)
     @ManyToOne
     public MtrEmbarcacion getMtrEmbarcacion() {
         return mtrEmbarcacion;
@@ -141,7 +141,7 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @NotNull
-    @JoinColumn(name = "MTR_TIPO_EVENTO_ID", nullable = false)
+    @JoinColumn(name = "mtr_tipo_evento_id", nullable = false)
     @ManyToOne
     public MtrTipoEvento getMtrTipoEvento() {
         return mtrTipoEvento;
@@ -163,7 +163,7 @@ public class MareaPesca extends BaseDomain implements Identifiable<Integer>, Ser
     // many-to-one: MareaPesca.mtrHorometro ==> MtrHorometro.id
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @JoinColumn(name = "MTR_HOROMETRO_ID")
+    @JoinColumn(name = "mtr_horometro_id")
     @ManyToOne
     public MtrHorometro getMtrHorometro() {
         return mtrHorometro;

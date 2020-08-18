@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 @Entity
-@Table(name = "MAREA_EVENTO")
+@Table(name = "marea_evento")
 //@Audited
 //@AuditTable("_audi_MAREA_EVENTO")
 public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Serializable {
@@ -56,10 +56,10 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // -- [id] ------------------------
 
     @Override
-    @Column(name = "MAREA_EVENTO_ID", precision = 10)
-    @GeneratedValue(strategy = SEQUENCE, generator = "seq_MAREA_EVENTO")
+    @Column(name = "marea_evento_id", precision = 10)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seq_marea_evento")
     @Id
-    @SequenceGenerator(name = "seq_MAREA_EVENTO", sequenceName = "seq_MAREA_EVENTO", allocationSize = 1)
+    @SequenceGenerator(name = "seq_marea_evento", sequenceName = "seq_marea_evento", allocationSize = 1)
     public Integer getId() {
         return id;
     }
@@ -82,7 +82,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // -- [fechaEvento] ------------------------
 
     @NotNull
-    @Column(name = "FECHA_EVENTO", nullable = false, length = 29)
+    @Column(name = "fecha_evento", nullable = false, length = 29)
 
     @Temporal(TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
@@ -102,7 +102,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
 
     @NotEmpty(message = "{message.mareaEvento.horaVento.requerido}")
     @Size(max = 10, message = "{message.mareaEvento.horaVento.sizeMax} {max} {message.caracter}")
-    @Column(name = "HORA_VENTO", nullable = false, length = 10)
+    @Column(name = "hora_vento", nullable = false, length = 10)
     public String getHoraVento() {
         return horaVento;
     }
@@ -118,7 +118,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // -- [stock] ------------------------
 
     @Digits(integer = 17, fraction = 2)
-    @Column(name = "STOCK", precision = 19, scale = 2)
+    @Column(name = "stock", precision = 19, scale = 2)
     public BigDecimal getStock() {
         return stock;
     }
@@ -140,7 +140,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // many-to-one: MareaEvento.mtrEstado ==> MtrEstado.id
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @JoinColumn(name = "MTR_ESTADO_ID")
+    @JoinColumn(name = "mtr_estado_id")
     @ManyToOne
     public MtrEstado getMtrEstado() {
         return mtrEstado;
@@ -162,7 +162,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // many-to-one: MareaEvento.mtrZonaPesca ==> MtrZonaPesca.id
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    @JoinColumn(name = "MTR_ZONA_PESCA_ID")
+    @JoinColumn(name = "mtr_zona_pesca_id")
     @ManyToOne
     public MtrZonaPesca getMtrZonaPesca() {
         return mtrZonaPesca;
@@ -185,7 +185,7 @@ public class MareaEvento extends BaseDomain implements Identifiable<Integer>, Se
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     @NotNull
-    @JoinColumn(name = "MTR_TIPO_EVENTO_ID", nullable = false)
+    @JoinColumn(name = "mtr_tipo_evento_id", nullable = false)
     @ManyToOne
     public MtrTipoEvento getMtrTipoEvento() {
         return mtrTipoEvento;
